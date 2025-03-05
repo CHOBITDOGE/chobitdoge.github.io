@@ -7,22 +7,24 @@
     <title>Personal Portfolio</title>
     <style>
         /* Global styles */
-        * {
+        body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        /* Navigation bar styles */
+        /* Navigation styles */
         nav {
-            background-color: white;
-            padding: 10px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 15px 0;
+            z-index: 1000;
+            opacity: 0;
+            animation: slideDown 0.5s ease-out forwards;
         }
 
         nav ul {
@@ -31,14 +33,13 @@
         }
 
         nav ul li {
-            display: inline-block;
-            margin: 0 15px;
+            display: inline;
+            margin: 0 20px;
         }
 
         nav ul li a {
+            color: white;
             text-decoration: none;
-            color: #333;
-            font-weight: bold;
             transition: color 0.3s ease;
         }
 
@@ -49,7 +50,7 @@
         /* Hero section styles */
         .hero {
             height: 100vh;
-            background: linear-gradient(to bottom right, #007BFF, #00C6FF);
+            background: linear-gradient(45deg, #007BFF, #00C6FF);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -59,27 +60,30 @@
         }
 
         .hero h1 {
-            font-size: 36px;
+            font-size: 48px;
             margin-bottom: 20px;
-            animation: fadeIn 1s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
         }
 
         .hero p {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 30px;
-            animation: fadeIn 1s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.7s forwards;
         }
 
         .hero button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 15px 30px;
+            font-size: 18px;
             background-color: white;
             color: #007BFF;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease;
-            animation: fadeIn 1s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
         }
 
         .hero button:hover {
@@ -91,112 +95,130 @@
         /* Projects section styles */
         .projects {
             padding: 80px 0;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.2s forwards;
         }
 
-        .project-item {
+        .project {
+            display: inline-block;
             width: 300px;
-            height: 300px;
-            margin: 0 auto 40px;
+            margin: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            position: relative;
             transition: transform 0.3s ease;
         }
 
-        .project-item img {
+        .project img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 0.3s ease;
+            height: auto;
+            transition: transform 0.3s ease;
         }
 
-        .project-item:hover {
+        .project:hover {
             transform: scale(1.05);
         }
 
-        .project-item:hover img {
-            opacity: 0.7;
+        .project:hover img {
+            transform: scale(1.1);
         }
 
-        .project-item h3 {
-            position: absolute;
-            bottom: 0;
+        .project h3 {
+            padding: 20px;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
+            height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            margin: 0;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
         }
 
-        .project-item:hover h3 {
-            opacity: 1;
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         /* About section styles */
         .about {
             padding: 80px 0;
             background-color: #f4f4f4;
-        }
-
-        .about-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.5s forwards;
         }
 
         .about img {
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease;
-        }
-
-        .about-info {
-            width: 60%;
-            max-width: 600px;
-        }
-
-        .about-info h2 {
-            font-size: 28px;
             margin-bottom: 20px;
-            animation: fadeIn 1s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.7s forwards;
         }
 
-        .about-info p {
-            margin-bottom: 15px;
-            animation: fadeIn 1s ease;
+        .about h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.9s forwards;
+        }
+
+        .about p {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2.1s forwards;
         }
 
         /* Contact section styles */
         .contact {
             padding: 80px 0;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2.3s forwards;
         }
 
         .contact form {
-            max-width: 500px;
+            width: 80%;
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        .contact form input,
-        .contact form textarea {
+        .contact input,
+        .contact textarea {
             width: 100%;
-            padding: 10px;
+            padding: 15px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
 
-        .contact form button {
-            padding: 10px 20px;
-            font-size: 16px;
+        .contact button {
+            padding: 15px 30px;
+            font-size: 18px;
             background-color: #007BFF;
             color: white;
             border: none;
@@ -205,16 +227,37 @@
             transition: background-color 0.3s ease;
         }
 
-        .contact form button:hover {
+        .contact button:hover {
             background-color: #0056b3;
         }
 
         /* Animation keyframes */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
             }
-
             to {
                 opacity: 1;
             }
@@ -223,7 +266,7 @@
 </head>
 
 <body>
-    <!-- Navigation bar -->
+    <!-- Navigation -->
     <nav>
         <ul>
             <li><a href="#">Home</a></li>
@@ -242,46 +285,79 @@
 
     <!-- Projects section -->
     <section id="projects" class="projects">
-        <h2 style="text-align: center; margin-bottom: 40px;">My Projects</h2>
-        <div class="project-items">
-            <div class="project-item">
-                <img src="https://via.placeholder.com/300" alt="Project 1">
-                <h3>Project 1: Online Shopping Platform</h3>
+        <h2>My Projects</h2>
+        <div class="project" onclick="openModal('project1')">
+            <img src="https://via.placeholder.com/300" alt="Project 1">
+            <h3>Online Shopping Platform</h3>
+        </div>
+        <div class="project" onclick="openModal('project2')">
+            <img src="https://via.placeholder.com/300" alt="Project 2">
+            <h3>Data Analysis Tool</h3>
+        </div>
+        <div class="project" onclick="openModal('project3')">
+            <img src="https://via.placeholder.com/300" alt="Project 3">
+            <h3>Creative Website Design</h3>
+        </div>
+
+        <!-- Modals for project details -->
+        <div id="project1" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('project1')">&times;</span>
+                <h2>Online Shopping Platform</h2>
+                <p>This is an online shopping platform project. It provides users with a convenient way to browse and purchase
+                    various products. The platform is built with modern web technologies to ensure a smooth and responsive
+                    user experience.</p>
             </div>
-            <div class="project-item">
-                <img src="https://via.placeholder.com/300" alt="Project 2">
-                <h3>Project 2: Data Analysis Tool</h3>
+        </div>
+        <div id="project2" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('project2')">&times;</span>
+                <h2>Data Analysis Tool</h2>
+                <p>The data analysis tool is designed to help users analyze and visualize data effectively. It offers a range
+                    of features such as data import, cleaning, and statistical analysis. With an intuitive interface, users
+                    can easily gain insights from their data.</p>
             </div>
-            <div class="project-item">
-                <img src="https://via.placeholder.com/300" alt="Project 3">
-                <h3>Project 3: Creative Website Design</h3>
+        </div>
+        <div id="project3" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('project3')">&times;</span>
+                <h2>Creative Website Design</h2>
+                <p>This project focuses on creating a unique and engaging website design. The design combines creativity and
+                    functionality to attract and retain users. It uses the latest design trends and techniques to make the
+                    website stand out.</p>
             </div>
         </div>
     </section>
 
     <!-- About section -->
     <section id="about" class="about">
-        <div class="about-container">
-            <img src="https://via.placeholder.com/200" alt="Personal Photo">
-            <div class="about-info">
-                <h2>About Me</h2>
-                <p>I'm a passionate developer dedicated to creating valuable projects through code.</p>
-                <p>I have rich experience in front - end development and am proficient in technologies such as HTML, CSS, and JavaScript.</p>
-            </div>
-        </div>
+        <img src="https://via.placeholder.com/200" alt="Profile Picture">
+        <h2>About Me</h2>
+        <p>I'm a passionate developer with a strong interest in web development and data analysis. I love turning ideas
+            into reality through code and creating user - friendly applications. With several years of experience in the
+            field, I'm constantly learning and improving my skills to stay up - to - date with the latest technologies.</p>
     </section>
 
     <!-- Contact section -->
     <section id="contact" class="contact">
-        <h2 style="text-align: center; margin-bottom: 40px;">Contact Me</h2>
+        <h2>Contact Me</h2>
         <form>
             <input type="text" placeholder="Name">
             <input type="email" placeholder="Email">
-            <input type="text" placeholder="Subject">
             <textarea placeholder="Message"></textarea>
             <button type="submit">Send Message</button>
         </form>
     </section>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "flex";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+    </script>
 </body>
 
 </html>
